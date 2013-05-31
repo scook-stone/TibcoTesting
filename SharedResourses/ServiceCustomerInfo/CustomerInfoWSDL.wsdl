@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:ns2="http://www.tibco.com/schemas/StacyTesting/SharedResourses/Schemas/Schema.xsd3" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://www.tibco.com/schemas/StacyTesting/SharedResourses/Services/Schema.xsd" xmlns:tns="http://xmlns.example.com/1369162699103" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.example.com/1369162699103">
+    <import namespace="http://www.tibco.com/schemas/StacyTesting/SharedResourses/Services/Schema.xsd" location="CustomerInformation.xsd"/>
+    <import namespace="http://www.tibco.com/schemas/StacyTesting/SharedResourses/Schemas/Schema.xsd3" location="CustomerInformationRequest.xsd"/>
+    <message name="CustomerInformation">
+        <part name="customerInformation" element="ns:CustomerInformation"/>
+    </message>
+    <message name="CustomerInformationRequest">
+        <part name="customerInformationRequest" element="ns2:CustomerInformationRequest"/>
+    </message>
+    <portType name="CustomerPort">
+        <operation name="AddCustomer">
+            <input name="CustomerAddRequest" message="tns:CustomerInformation"/>
+        </operation>
+        <operation name="RequestCustomer">
+            <input name="request" message="tns:CustomerInformationRequest"/>
+            <output name="respose" message="tns:CustomerInformation"/>
+        </operation>
+    </portType>
+</definitions>

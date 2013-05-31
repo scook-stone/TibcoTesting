@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/MathWcfLibrary"
+	 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 targetNamespace="http://schemas.datacontract.org/2004/07/MathWcfLibrary"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:complexType name="TaxObject">
+		<xs:sequence>
+			<xs:element name="SubTotal" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TaxAmount" type="xs:decimal" minOccurs="0"/>
+			<xs:element name="TaxRate" type="xs:decimal" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="TaxObject" type="tns:TaxObject"/>
+</xs:schema>

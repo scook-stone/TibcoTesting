@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/StacyTesting/SharedResourses/Schemas/Schema.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/StacyTesting/SharedResourses/Schemas/Schema.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="manufacturer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="date.issued"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="date.issued" type="xs:date"/>
+	<xs:element name="product">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="sku"/>
+				<xs:element ref="product.name"/>
+				<xs:element ref="price"/>
+				<xs:element ref="description" minOccurs="0"/>
+				<xs:element ref="promotion"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="sku" type="xs:string"/>
+	<xs:element name="product.name" type="xs:string"/>
+	<xs:element name="price" type="xs:decimal"/>
+	<xs:element name="description" type="xs:string"/>
+	<xs:element name="promotion">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="price"/>
+			</xs:sequence>
+			<xs:attribute name="start.date" type="xs:date"/>
+			<xs:attribute name="end.date" type="xs:date"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="price.list">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="manufacturer"/>
+				<xs:element ref="product" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

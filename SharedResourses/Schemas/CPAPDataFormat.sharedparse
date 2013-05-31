@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://SD.AGMC.BT_2010.SOW1.CPAPCustomerFlat_v1">
+    <import namespace="http://SD.AGMC.BT_2010.SOW1.CPAPCustomerFlat_v1" schemaLocation="/SharedResourses/Schemas/CPAPCustomerFlat_v1.xsd"/>
+    <name>CPAPDataFormat</name>
+    <resourceType>ae.shared.ParseSharedResource</resourceType>
+    <config xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <FormatType>Delimiter separated</FormatType>
+        <ColumnSeparator>,</ColumnSeparator>
+        <ColSeparatorRule>Treat all characters as entered as a single column separator string</ColSeparatorRule>
+        <LineSeparator>&#xD;
+</LineSeparator>
+        <FillCharacter>Space</FillCharacter>
+        <LineLength>5</LineLength>
+        <DataFormat>
+            <xsd:element name="Customer">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CustomerId" type="xsd:string"/>
+                        <xsd:element name="Name" type="xsd:string"/>
+                        <xsd:element name="Address1" type="xsd:string"/>
+                        <xsd:element name="Address2" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="City" type="xsd:string"/>
+                        <xsd:element name="State" type="xsd:string"/>
+                        <xsd:element name="Zip" type="xsd:string"/>
+                        <xsd:element name="Phone" type="xsd:string"/>
+                        <xsd:element name="CPCPMachineType" type="xsd:string"/>
+                        <xsd:element name="AHI" type="xsd:string"/>
+                        <xsd:element name="NinetyPctMax" type="xsd:string"/>
+                        <xsd:element name="NinetyPctMin" type="xsd:string"/>
+                        <xsd:element name="CPAPMaskType" type="xsd:string"/>
+                        <xsd:element name="DOB" type="xsd:string"/>
+                        <xsd:element name="Gender" type="xsd:string"/>
+                        <xsd:element name="CPAPIssueDate" type="xsd:string"/>
+                        <xsd:element name="Doctor" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </DataFormat>
+    </config>
+</BWSharedResource>

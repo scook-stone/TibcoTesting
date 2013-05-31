@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+    <xs:import schemaLocation="http://win-7gk1fam4b9j/MathService/MathWcfLibrary.MathService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/MathWcfLibrary"/>
+    <xs:element name="CalcTaxAmount">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/MathWcfLibrary" minOccurs="0" name="req" nillable="true" type="q1:TaxObject"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CalcTaxAmountResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/MathWcfLibrary" minOccurs="0" name="CalcTaxAmountResult" nillable="true" type="q2:TaxObject"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <identity>
+        <objectType>usernamePassword</objectType>
+        <name>Administrator</name>
+        <designer/>
+        <username>administrator</username>
+        <password>#!B+qF7/2akPNS8qTg/3HmH0iDHwhB6kXffTSnRX6mTJw=</password>
+    </identity>
+</Repository:repository>

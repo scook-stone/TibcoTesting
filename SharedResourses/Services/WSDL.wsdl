@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:impl="http://wsHello.Stacy.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:intf="http://wsHello.Stacy.com" targetNamespace="http://wsHello.Stacy.com">
+    <!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://wsHello.Stacy.com">
+            <element name="getGreeting">
+                <complexType>
+                    <sequence>
+                        <element name="name" type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="getGreetingResponse">
+                <complexType>
+                    <sequence>
+                        <element name="getGreetingReturn" type="xsd:string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="getGreetingRequest">
+        <wsdl:part element="impl:getGreeting" name="parameters">
+
+      </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getGreetingResponse">
+        <wsdl:part element="impl:getGreetingResponse" name="parameters">
+
+      </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="HelloWorld">
+        <wsdl:operation name="getGreeting">
+            <wsdl:input message="impl:getGreetingRequest" name="getGreetingRequest">
+
+       </wsdl:input>
+            <wsdl:output message="impl:getGreetingResponse" name="getGreetingResponse">
+
+       </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="HelloWorldSoapBinding" type="impl:HelloWorld">
+        <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getGreeting">
+            <wsdlsoap:operation soapAction=""/>
+            <wsdl:input name="getGreetingRequest">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="getGreetingResponse">
+                <wsdlsoap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="HelloWorldService">
+        <wsdl:port binding="impl:HelloWorldSoapBinding" name="HelloWorld">
+            <wsdlsoap:address location="http://localhost:8088/wsHello/services/HelloWorld"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

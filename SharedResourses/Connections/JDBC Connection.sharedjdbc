@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource>
+    <name>JDBC Connection</name>
+    <resourceType>ae.shared.JDBCSharedResource</resourceType>
+    <config>
+        <driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>
+        <maxConnections>10</maxConnections>
+        <loginTimeout>0</loginTimeout>
+        <connectionType>JDBC</connectionType>
+        <UseSharedJndiConfig>false</UseSharedJndiConfig>
+        <location>jdbc:sqlserver://WIN-7GK1FAM4B9J ;databaseName=AdventureWorksDW2012</location>
+        <user>sa</user>
+        <password>#!NFcy9KzV+s5kH+BRn6qrVv/bG4MK6Ctr0ZcMDs26+G8=</password>
+    </config>
+</BWSharedResource>

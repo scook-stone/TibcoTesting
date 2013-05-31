@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BWSharedResource xmlns:ns1="http://xmlns.tibco.com/encodings/mime" xmlns:ns="http://xmlns.tibco.com/soap/context" xmlns:pfx2="http://tempuri.org/" xmlns:pfx="http://www.tibco.com/tnt/utilitySchema">
+    <name>StacyPartnerConfiguration</name>
+    <resourceType>shared.partner.config</resourceType>
+    <config>
+        <partners>
+            <row partnerName="CalcTaxLink" timeout="0" endpoint="/documents/MathWcfLibrary_MathService.wsdl#BasicHttpBinding_IMathService" endpointType="soap">
+                <config>
+                    <endpointURI>http://win-7gk1fam4b9j/MathService/MathWcfLibrary.MathService.svc</endpointURI>
+                    <useProxy>false</useProxy>
+                    <proxyName/>
+                    <requireBasicAuth>true</requireBasicAuth>
+                    <authScheme>BASIC</authScheme>
+                    <basicHttpAuthIdentity>/SharedResourses/Services/Administrator.id</basicHttpAuthIdentity>
+                    <domain/>
+                    <ns0:ssl xmlns:ns0="http://www.tibco.com/xmlns/aemeta/services/2002"/>
+                    <soapAttachmentStyle>SwA</soapAttachmentStyle>
+                    <soap>
+                        <operation name="CalcTaxAmount">
+                            <general>
+                                <config>
+                                    <soapAction>http://tempuri.org/IMathService/CalcTaxAmount</soapAction>
+                                </config>
+                            </general>
+                            <advanced>
+                                <config>
+                                    <opDetail>
+                                        <tab>
+                                            <tabName>shared.partner.config.inputHeaders.tab.label</tabName>
+                                            <tabType>inputHeaders</tabType>
+                                            <config>
+                                                <inputHeadersMessage/>
+                                            </config>
+                                        </tab>
+                                        <tab>
+                                            <tabName>shared.partner.config.outputHeaders.tab.label</tabName>
+                                            <tabType>outputHeaders</tabType>
+                                            <config>
+                                                <outputHeadersMessage>
+                                                    <binding>
+                                                        <partName>parameters</partName>
+                                                        <messageName>pfx2:IMathService_CalcTaxAmount_OutputMessage</messageName>
+                                                        <bindingDetails>
+                                                            <soap.header.undescribed>Optional (?)</soap.header.undescribed>
+                                                        </bindingDetails>
+                                                    </binding>
+                                                </outputHeadersMessage>
+                                            </config>
+                                        </tab>
+                                        <tab>
+                                            <tabName>shared.partner.config.inputContext.tab.label</tabName>
+                                            <tabType>inputContext</tabType>
+                                            <config>
+                                                <context>
+                                                    <ref/>
+                                                </context>
+                                            </config>
+                                        </tab>
+                                        <tab>
+                                            <tabName>shared.partner.config.outputContext.tab.label</tabName>
+                                            <tabType>outputContext</tabType>
+                                            <config>
+                                                <context>
+                                                    <ref/>
+                                                    <exposeSecurityContext>false</exposeSecurityContext>
+                                                </context>
+                                            </config>
+                                        </tab>
+                                        <tab>
+                                            <tabName>shared.partner.config.faultContext.tab.label</tabName>
+                                            <tabType>faultContext</tabType>
+                                            <config>
+                                                <context>
+                                                    <ref/>
+                                                    <exposeSecurityContext>false</exposeSecurityContext>
+                                                </context>
+                                            </config>
+                                        </tab>
+                                    </opDetail>
+                                </config>
+                            </advanced>
+                        </operation>
+                    </soap>
+                </config>
+            </row>
+            <row partnerName="SayHello" timeout="0" endpoint="/SharedResourses/Services/WSDL.wsdl#HelloWorld" endpointType="soap">
+                <config>
+                    <endpointURI>http://localhost:8088/wsHello/services/HelloWorld</endpointURI>
+                    <useProxy>false</useProxy>
+                    <proxyName/>
+                    <requireBasicAuth>false</requireBasicAuth>
+                    <authScheme>NONE</authScheme>
+                    <basicHttpAuthIdentity/>
+                    <domain/>
+                    <ns0:ssl xmlns:ns0="http://www.tibco.com/xmlns/aemeta/services/2002"/>
+                    <soapAttachmentStyle>SwA</soapAttachmentStyle>
+                    <soap>
+                        <operation name="getGreeting">
+                            <general>
+                                <config>
+                                    <soapAction/>
+                                </config>
+                            </general>
+                        </operation>
+                    </soap>
+                </config>
+            </row>
+        </partners>
+    </config>
+</BWSharedResource>

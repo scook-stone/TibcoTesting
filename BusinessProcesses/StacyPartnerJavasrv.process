@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://wsHello.Stacy.com" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://tempuri.org/" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://schemas.datacontract.org/2004/07/MathWcfLibrary" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pd:name>BusinessProcesses/StacyPartnerJavasrv.process</pd:name>
+    <pd:startName>Timer</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="Timer">
+        <pd:type>com.tibco.plugin.timer.TimerEventSource</pd:type>
+        <pd:resourceType>ae.activities.timer</pd:resourceType>
+        <pd:x>70</pd:x>
+        <pd:y>123</pd:y>
+        <config>
+            <StartTime>1368547801000</StartTime>
+            <Frequency>false</Frequency>
+            <TimeInterval>1</TimeInterval>
+            <FrequencyIndex>Minute</FrequencyIndex>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>482</pd:endX>
+    <pd:endY>68</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:partners>
+        <row>
+            <partnerName>Stacy</partnerName>
+            <partnerInterfaceName>IMathService</partnerInterfaceName>
+            <partnerInterfaceNs>http://tempuri.org/</partnerInterfaceNs>
+            <partnerConfig>/SharedResourses/Services/StacyPartnerConfiguration.sharedpartner#CalcTaxLink</partnerConfig>
+            <partnerInterfaceLocation>/SharedResourses/Services/MathServiceWSDL.wsdl</partnerInterfaceLocation>
+        </row>
+        <row>
+            <partnerName>StacyHelloWorld</partnerName>
+            <partnerInterfaceName>HelloWorld</partnerInterfaceName>
+            <partnerInterfaceNs>http://wsHello.Stacy.com</partnerInterfaceNs>
+            <partnerConfig>/SharedResourses/Services/StacyPartnerConfiguration.sharedpartner#SayHello</partnerConfig>
+            <partnerInterfaceLocation>/SharedResourses/Services/WSDL.wsdl</partnerInterfaceLocation>
+        </row>
+    </pd:partners>
+    <pd:targetNamespace>http://xmlns.example.com/1368481009462</pd:targetNamespace>
+    <pd:activity name="Create File">
+        <pd:type>com.tibco.plugin.file.FileCreateActivity</pd:type>
+        <pd:resourceType>ae.activities.FileCreateActivity</pd:resourceType>
+        <pd:x>281</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <overwrite>true</overwrite>
+            <createMissingDirectories>true</createMissingDirectories>
+        </config>
+        <pd:inputBindings>
+            <ns1:CreateActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="&quot;C:\Projects\StacyTesting\Output\StacyPartnerJavasrv.txt&quot;"/>
+                </fileName>
+            </ns1:CreateActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write File">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>384</pd:x>
+        <pd:y>61</pd:y>
+        <config>
+            <encoding>text</encoding>
+            <compressFile>None</compressFile>
+        </config>
+        <pd:inputBindings>
+            <ns1:WriteActivityInputTextClass>
+                <fileName>
+                    <xsl:value-of select="$Create-File/ns1:CreateActivityOutputClass/fileInfo/fullName"/>
+                </fileName>
+                <textContent>
+                    <xsl:value-of select="$Invoke-Partner-HelloWorld/ns2:getGreetingResponse/parameters/ns2:getGreetingResponse/ns2:getGreetingReturn"/>
+                </textContent>
+                <addLineSeparator>
+                    <xsl:value-of select="1"/>
+                </addLineSeparator>
+            </ns1:WriteActivityInputTextClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Invoke-Partner-HelloWorld">
+        <pd:type>com.tibco.ae.tools.palettes.servicepalette.activities.InvokePartnerActivity</pd:type>
+        <pd:resourceType>service.activity.invokePartner</pd:resourceType>
+        <pd:x>179</pd:x>
+        <pd:y>99</pd:y>
+        <config>
+            <partner>StacyHelloWorld</partner>
+            <operation>getGreeting</operation>
+        </config>
+        <pd:inputBindings>
+            <ns2:getGreetingRequest>
+                <parameters>
+                    <ns2:getGreeting>
+                        <ns2:name>
+                            <xsl:value-of select="&quot;Stacy Ann&quot;"/>
+                        </ns2:name>
+                    </ns2:getGreeting>
+                </parameters>
+            </ns2:getGreetingRequest>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Write File</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Create File</pd:from>
+        <pd:to>Write File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Timer</pd:from>
+        <pd:to>Invoke-Partner-HelloWorld</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Invoke-Partner-HelloWorld</pd:from>
+        <pd:to>Create File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

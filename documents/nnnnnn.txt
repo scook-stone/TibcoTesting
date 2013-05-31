@@ -1,0 +1,3 @@
+http://localhost/MathService/MathWcfLibrary.MathService.svc
+
+http://win-7gk1fam4b9j/MathService/MathWcfLibrary.MathService.svc?wsdl

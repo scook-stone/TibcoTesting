@@ -1,0 +1,8 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<ShipTo xmlns = "http://www.tibco.com/schemas/StacyTesting/SharedResourses/Schemas/Schema.xsd2" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.tibco.com/schemas/StacyTesting/SharedResourses/Schemas/Schema.xsd2 ../SharedResourses/Schemas/USShipTo.xsd">
+	<addr:name xmlns:addr = "http://www.tibco.com/schemas/StacyTesting/common/addresstypes">Stacy Cook</addr:name>
+	<addr:street xmlns:addr = "http://www.tibco.com/schemas/StacyTesting/common/addresstypes">524 Orchard Ave</addr:street>
+	<addr:city xmlns:addr = "http://www.tibco.com/schemas/StacyTesting/common/addresstypes">Barberton</addr:city>
+	<addr:state xmlns:addr = "http://www.tibco.com/schemas/StacyTesting/common/addresstypes">OH</addr:state>
+	<addr:zip xmlns:addr = "http://www.tibco.com/schemas/StacyTesting/common/addresstypes">44203</addr:zip>
+</ShipTo>

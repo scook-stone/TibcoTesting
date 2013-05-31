@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://schemas.tibco.com/bw/plugins/file/5.0/fileExceptions" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:pfx2="http://SD.AGMC.BT_2010.SOW1.AGMCPatients" xmlns:pfx="http://SD.AGMC.BT_2010.SOW1.CPAPCustomerFlat_v1">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://SD.AGMC.BT_2010.SOW1.AGMCPatients" schemaLocation="/SharedResourses/Schemas/AGMCPatient.xsd"/>
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://SD.AGMC.BT_2010.SOW1.CPAPCustomerFlat_v1" schemaLocation="/SharedResourses/Schemas/CPAPCustomerFlat_v1.xsd"/>
+    <pd:name>BusinessProcesses/CPAP_AGMC.process</pd:name>
+    <pd:startName>CPAPFilePoller</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="CPAPFilePoller">
+        <pd:type>com.tibco.plugin.file.FileEventSource</pd:type>
+        <pd:resourceType>ae.activities.FileEventSourceResource</pd:resourceType>
+        <pd:x>47</pd:x>
+        <pd:y>54</pd:y>
+        <config>
+            <pollInterval>3</pollInterval>
+            <createEvent>true</createEvent>
+            <modifyEvent>false</modifyEvent>
+            <deleteEvent>false</deleteEvent>
+            <mode>files-and-directories</mode>
+            <encoding>text</encoding>
+            <sortby>File Name</sortby>
+            <sortorder>descending</sortorder>
+            <fileName>C:\Projects\CPAP2AGMC\Inbound\CPAP_Customer.csv</fileName>
+            <includeCurrent>true</includeCurrent>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>742</pd:endX>
+    <pd:endY>54</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://SD.CPAP_AGMC_SOW1</pd:targetNamespace>
+    <pd:activity name="CPAP_2_XML">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>314</pd:x>
+        <pd:y>53</pd:y>
+        <config>
+            <element ref="pfx:CPAP"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:CPAP>
+                <xsl:for-each select="$ParseCPAPCustomers/Output/Rows/Customer">
+                    <Customer>
+                        <CustomerID>
+                            <xsl:value-of select="CustomerId"/>
+                        </CustomerID>
+                        <Name>
+                            <xsl:value-of select="Name"/>
+                        </Name>
+                        <Address1>
+                            <xsl:value-of select="Address1"/>
+                        </Address1>
+                        <Address2>
+                            <xsl:value-of select="Address2"/>
+                        </Address2>
+                        <City>
+                            <xsl:value-of select="City"/>
+                        </City>
+                        <State>
+                            <xsl:value-of select="State"/>
+                        </State>
+                        <ZipCode>
+                            <xsl:value-of select="Zip"/>
+                        </ZipCode>
+                        <Phone>
+                            <xsl:value-of select="Phone"/>
+                        </Phone>
+                        <MachineType>
+                            <xsl:value-of select="CPCPMachineType"/>
+                        </MachineType>
+                        <AHI>
+                            <xsl:value-of select="AHI"/>
+                        </AHI>
+                        <NinetyPctMax>
+                            <xsl:value-of select="NinetyPctMax"/>
+                        </NinetyPctMax>
+                        <NinetyPctMin>
+                            <xsl:value-of select="NinetyPctMin"/>
+                        </NinetyPctMin>
+                        <MaskType>
+                            <xsl:value-of select="CPAPMaskType"/>
+                        </MaskType>
+                        <DOB>
+                            <xsl:value-of select="DOB"/>
+                        </DOB>
+                        <Gender>
+                            <xsl:value-of select="Gender"/>
+                        </Gender>
+                        <DateIssued>
+                            <xsl:value-of select="CPAPIssueDate"/>
+                        </DateIssued>
+                        <Doctor>
+                            <xsl:value-of select="Doctor"/>
+                        </Doctor>
+                    </Customer>
+                </xsl:for-each>
+            </pfx:CPAP>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ParseCPAPCustomers">
+        <pd:type>com.tibco.plugin.parse.ParseActivity</pd:type>
+        <pd:resourceType>ae.activities.ParseActivity</pd:resourceType>
+        <pd:x>180</pd:x>
+        <pd:y>54</pd:y>
+        <config>
+            <InputType>File</InputType>
+            <Encoding>ASCII</Encoding>
+            <ParseSharedConfig>/SharedResourses/Schemas/CPAPDataFormat.sharedparse</ParseSharedConfig>
+            <SkipBlankLines>true</SkipBlankLines>
+            <SpecifyStartRecord>true</SpecifyStartRecord>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <fileName>
+                    <xsl:value-of select="$CPAPFilePoller/ns:EventSourceOuputTextClass/fileInfo/fullName"/>
+                </fileName>
+                <startRecord>
+                    <xsl:value-of select="2"/>
+                </startRecord>
+                <noOfRecords>
+                    <xsl:value-of select="-1"/>
+                </noOfRecords>
+                <SkipHeaderCharacters>
+                    <xsl:value-of select="0"/>
+                </SkipHeaderCharacters>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render XML">
+        <pd:type>com.tibco.plugin.xml.XMLRendererActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLRendererActivity</pd:resourceType>
+        <pd:x>414</pd:x>
+        <pd:y>54</pd:y>
+        <config>
+            <renderAsText>text</renderAsText>
+            <validateInput>false</validateInput>
+            <textEncoding>UTF-8</textEncoding>
+            <term ref="pfx2:Patients"/>
+        </config>
+        <pd:inputBindings>
+            <pfx2:Patients>
+                <xsl:for-each select="$CPAP_2_XML/pfx:CPAP/Customer">
+                    <Patient>
+                        <ID>
+                            <xsl:value-of select="CustomerID"/>
+                        </ID>
+                        <Type>
+                            <xsl:value-of select="&quot;CPAP&quot;"/>
+                        </Type>
+                        <FirstName>
+                            <xsl:value-of select="substring-before(current()/Name, &quot; &quot;)"/>
+                        </FirstName>
+                        <LastName>
+                            <xsl:value-of select="substring-after(current()/Name, &quot; &quot;)"/>
+                        </LastName>
+                        <Address1>
+                            <xsl:value-of select="Address1"/>
+                        </Address1>
+                        <Address2>
+                            <xsl:value-of select="Address2"/>
+                        </Address2>
+                        <City>
+                            <xsl:value-of select="City"/>
+                        </City>
+                        <State>
+                            <xsl:value-of select="State"/>
+                        </State>
+                        <Zip>
+                            <xsl:value-of select="ZipCode"/>
+                        </Zip>
+                        <WorkPhone>
+                            <xsl:value-of select="Phone"/>
+                        </WorkPhone>
+                        <Gender>
+                            <xsl:value-of select="Gender"/>
+                        </Gender>
+                        <DOB>
+                            <xsl:value-of select="DOB"/>
+                        </DOB>
+                        <CPAPInfo>
+                            <MachineType>
+                                <xsl:value-of select="MachineType"/>
+                            </MachineType>
+                            <AHI>
+                                <xsl:value-of select="AHI"/>
+                            </AHI>
+                            <NinetyMin>
+                                <xsl:value-of select="NinetyPctMin"/>
+                            </NinetyMin>
+                            <NinetyMax>
+                                <xsl:value-of select="NinetyPctMax"/>
+                            </NinetyMax>
+                            <DateIssued>
+                                <xsl:value-of select="DateIssued"/>
+                            </DateIssued>
+                            <MaskType>
+                                <xsl:value-of select="MaskType"/>
+                            </MaskType>
+                        </CPAPInfo>
+                        <Health>
+                            <PrimaryPhysician>
+                                <xsl:value-of select="Doctor"/>
+                            </PrimaryPhysician>
+                        </Health>
+                    </Patient>
+                </xsl:for-each>
+            </pfx2:Patients>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write AGMCPatient">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>624</pd:x>
+        <pd:y>54</pd:y>
+        <config>
+            <encoding>text</encoding>
+            <compressFile>None</compressFile>
+        </config>
+        <pd:inputBindings>
+            <ns:WriteActivityInputTextClass>
+                <fileName>
+                    <xsl:value-of select="$Create-File/ns:CreateActivityOutputClass/fileInfo/fullName"/>
+                </fileName>
+                <textContent>
+                    <xsl:value-of select="$Render-XML/xmlString"/>
+                </textContent>
+            </ns:WriteActivityInputTextClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Create File">
+        <pd:type>com.tibco.plugin.file.FileCreateActivity</pd:type>
+        <pd:resourceType>ae.activities.FileCreateActivity</pd:resourceType>
+        <pd:x>506</pd:x>
+        <pd:y>78</pd:y>
+        <config/>
+        <pd:inputBindings>
+            <ns:CreateActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="&quot;C:\Projects\CPAP2AGMC\Outbound\AGMCPatients.xml&quot;"/>
+                </fileName>
+            </ns:CreateActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write-AGMCPatient-1">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>645</pd:x>
+        <pd:y>134</pd:y>
+        <config>
+            <encoding>text</encoding>
+            <compressFile>None</compressFile>
+            <append>true</append>
+        </config>
+        <pd:inputBindings>
+            <ns:WriteActivityInputTextClass>
+                <fileName>
+                    <xsl:value-of select="&quot;C:\Projects\CPAP2AGMC\Outbound\AGMCPatients.xml&quot;"/>
+                </fileName>
+                <textContent>
+                    <xsl:value-of select="$Render-XML/xmlString"/>
+                </textContent>
+            </ns:WriteActivityInputTextClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>493</pd:x>
+        <pd:y>151</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <fault>localname=FileAlreadyExistsException namespace=http://schemas.tibco.com/bw/plugins/file/5.0/fileExceptions</fault>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Write AGMCPatient</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CPAPFilePoller</pd:from>
+        <pd:to>ParseCPAPCustomers</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ParseCPAPCustomers</pd:from>
+        <pd:to>CPAP_2_XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CPAP_2_XML</pd:from>
+        <pd:to>Render XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render XML</pd:from>
+        <pd:to>Create File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Write-AGMCPatient-1</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Create File</pd:from>
+        <pd:to>Write AGMCPatient</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write-AGMCPatient-1</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
